@@ -30,6 +30,7 @@ config.databaseOptions = {
 // Assign values based on current execution environment
 // ----------------------------------------------------
 let environmentSettings = {};
+console.log('Using environment', process.env.NODE_ENV)
 switch (process.env.NODE_ENV) {
   case 'production': environmentSettings = require('./production'); break;
   case 'test': environmentSettings = require('./test'); break;
