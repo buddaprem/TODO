@@ -1,7 +1,37 @@
+# Stuff for HR Presentation
+
+1. Install Python & pip & other deps
+    1. `$ brew update`
+    1. `$ brew install python`
+    1. `$ pip install --upgrade distribute`
+    1. `$ pip install --upgrade pip`
+    1. `$ brew install ssh-keygen`
+    1. `$ brew install awscli`
+1. Download EB CLI:
+    1. `$ pip install --upgrade --user awsebcli`
+1. Add Python to path:
+    1. `$ python --version`
+    1. Then add the following to your `.bash_profile` or `.path`: `PATH=~/Library/Python/2.7/bin:$PATH`
+1. Create IAM user and group
+1. Configure your AWS profile on the CLI
+    1. `$ aws configure --profile [yourprofile]`
+    1. Use `us-west-2` for region name and `json` for format
+    1. Check out `~/.aws` to see the setup
+1. Initialize your EB configuration on the project
+    1. `$ eb init --profile [yourprofile]`
+1. Create RDS instance
+1. Configure the EBS environment
+    1. Static files: Virtual Path: `/static/`, Directory: `/public/
+    1. Environment properties:
+        1. `NODE_ENV=production`
+        1. `NPM_CONFIG_PRODUCTION=true`
+        1. `RDS_CONNECTION_URL=postgres://[db_user]:[db_password]@[connection_url]/[db_name]`
+1. Add PostgreSQL connection to inbound rules of security group
+
 # TodoMVC++ : Taking TodoMVC To Production
 
 TodoMVC++ is the companion application for Zero to Production with Node.js.
-To learn more about how this application works, check out the video course on 
+To learn more about how this application works, check out the video course on
 [Frontend Masters](https://www.frontendmasters.com).
 
 This application is based on [TodoMVC](http://todomvc.com/), and specifically
@@ -35,7 +65,7 @@ installed, grab Postgres with:
     brew update
     brew install postgres
 
-If Postgres is installed using the method above, you should now have a few 
+If Postgres is installed using the method above, you should now have a few
 Postgres administrative commands on your system path. Begin by firing up another
 Terminal tab and starting the database:
 
@@ -57,11 +87,11 @@ If Postgres is **not** installed locally, you can setup a free instance as follo
 Apply the database migrations:
 
     sequelize db:migrate
-    
+
 Copy over static assets:
 
     grunt collect_static
-    
+
 ### Running the application
 
 To run the application in development mode:
@@ -77,4 +107,4 @@ To run the application simulating production settings:
 ## License
 
 MIT
-    
+
