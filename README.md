@@ -19,7 +19,9 @@
     1. Check out `~/.aws` to see the setup
 1. Initialize your EB configuration on the project
     1. `$ eb init --profile [yourprofile]`
+1. Create your EB environment: `$ eb create`
 1. Create RDS instance
+    1. Add to it the security group created by EB
 1. Configure the EBS environment
     1. Static files: Virtual Path: `/static/`, Directory: `/public/
     1. Environment properties:
