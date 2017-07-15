@@ -5,7 +5,6 @@
     1. `$ brew install python`
     1. `$ pip install --upgrade distribute`
     1. `$ pip install --upgrade pip`
-    1. `$ brew install ssh-keygen`
     1. `$ brew install awscli`
 1. Download EB CLI:
     1. `$ pip install --upgrade --user awsebcli`
@@ -19,16 +18,58 @@
     1. Check out `~/.aws` to see the setup
 1. Initialize your EB configuration on the project
     1. `$ eb init --profile [yourprofile]`
+    1. App name: todomvc-plusplus
 1. Create your EB environment: `$ eb create`
+    1. Environment name: todomvc-plusplus-prod
+    1. DNS CNAME prefix: todomvc
+    1. Classic load balancer, either works
 1. Create RDS instance
-    1. Add to it the security group created by EB
+    1. DB instance identifier: todomvc
+    1. Master username/password isn't a big deal (not accessible to public)
+    1. Add to it the EC2 instance security group created by EB
+    1. Database name: todos
 1. Configure the EBS environment
-    1. Static files: Virtual Path: `/static/`, Directory: `/public/
+    1. Static files: Virtual Path: `/static/` (what the browser hits), Directory: `/public/ (where we look on our server)
     1. Environment properties:
         1. `NODE_ENV=production`
         1. `NPM_CONFIG_PRODUCTION=true`
         1. `RDS_CONNECTION_URL=postgres://[db_user]:[db_password]@[connection_url]/[db_name]`
-1. Add PostgreSQL connection to inbound rules of security group
+1. Add PostgreSQL connection to inbound rules of EC2 security group
+1. Set up Travis
+    1. Sign into Travis, tell it to do your repo
+    1. Install Travis CLI
+        1. Check Ruby > 1.9.3 `ruby -v`
+        1. Download Travis CLI `$ gem install travis -v 1.8.8 --no-rdoc --no-ri`
+        1. Verify `$ travis version`
+    1. Get an encrypted secret access key
+    1. Add .travis.yml
+
+```
+language: node_js
+cache:
+  directories:
+  - node_modules
+env:
+- TRAVIS_NODE_VERSION="6.3"
+install:
+- npm install
+script:
+- npm test
+- ./node_modules/.bin/grunt collect_static
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: <access-key-id>
+  secret_access_key:
+    secure: "Encypted <secret-access-key>="
+  region: "us-east-1"
+  app: "todomvc-plusplus"
+  env: "todomvc-plusplus-prod"
+  bucket_name: "the-target-S3-bucket"
+```
+
+or try `$ travis setup elasticbeanstalk`
+
+
 
 # TodoMVC++ : Taking TodoMVC To Production
 
