@@ -11,7 +11,7 @@ services:
 install:
 - npm install
 before_script:
-  - psql -c 'createdb todos-test;' -U postgres
+  - psql -c 'create database todos-test;' -U postgres
   - sequelize db:migrate
 script:
 - npm test
