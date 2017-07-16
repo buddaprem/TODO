@@ -6,6 +6,7 @@ cache:
   - node_modules
 env:
 - TRAVIS_NODE_VERSION="6.3"
+- NODE_ENV="test"
 services:
 - "postgresql"
 install:
