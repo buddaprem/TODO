@@ -26,7 +26,7 @@
 1. Create RDS instance
     1. DB instance identifier: todomvc
     1. Master username/password isn't a big deal (not accessible to public)
-    1. Add to it the EC2 instance security group created by EB
+    1. Use it's own security group, e.g. `rds-launch-wizard-1`
     1. Database name: todos
 1. Configure the EBS environment
     1. Static files: Virtual Path: `/static/` (what the browser hits), Directory: `/public/ (where we look on our server)
@@ -34,7 +34,8 @@
         1. `NODE_ENV=production`
         1. `NPM_CONFIG_PRODUCTION=true`
         1. `RDS_CONNECTION_URL=postgres://[db_user]:[db_password]@[connection_url]/[db_name]`
-1. Add PostgreSQL connection to inbound rules of EC2 security group
+1. Add PostgreSQL connection to inbound rules of RDS security group `rds-launch-wizard-1`
+    1. Choose 5432 as port, allowing connections from the EC2 security group
 1. Set up Travis
     1. Sign into Travis, tell it to do your repo
     1. Install Travis CLI
