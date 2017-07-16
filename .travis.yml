@@ -6,8 +6,13 @@ cache:
   - node_modules
 env:
 - TRAVIS_NODE_VERSION="6.3"
+services:
+- "postgresql"
 install:
 - npm install
+before_script:
+  - psql -c 'createdb todos-test;' -U postgres
+  - sequelize db:migrate
 script:
 - npm test
 - "./node_modules/.bin/grunt collect_static"
