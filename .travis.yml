@@ -24,6 +24,7 @@ deploy:
   region: us-west-2
   app: todomvc-2
   env: todomvc-2-dev
-  bucket_name: elasticbeanstalk-us-west-2-204160565325/todomvc-2
+  bucket_name: elasticbeanstalk-us-west-2-204160565325
+  bucket_path: todomvc-2
   on:
     repo: AndrewSouthpaw/todomvc-plusplus
