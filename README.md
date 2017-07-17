@@ -1,4 +1,4 @@
-# Stuff for HR Presentation
+# Deploying to AWS Elastic Beanstalk
 
 1. Install Python & pip & other deps
     1. `$ brew update`
