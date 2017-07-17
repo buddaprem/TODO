@@ -48,29 +48,42 @@
 ```
 language: node_js
 node_js:
-- "6"
+  - "6"
 cache:
   directories:
   - node_modules
 env:
 - TRAVIS_NODE_VERSION="6.3"
+services:
+- "postgresql"
 install:
 - npm install
+before_script:
+  - psql -c 'create database "todos-test";' -U postgres
+  - sequelize db:migrate
 script:
 - npm test
-- ./node_modules/.bin/grunt collect_static
-deploy:
-  provider: elasticbeanstalk
-  access_key_id: <access-key-id>
-  secret_access_key:
-    secure: "Encypted <secret-access-key>="
-  region: "us-east-1"
-  app: "todomvc-plusplus"
-  env: "todomvc-plusplus-prod"
-  bucket_name: "the-target-S3-bucket"
+- "./node_modules/.bin/grunt collect_static"
 ```
 
-or try `$ travis setup elasticbeanstalk`
+    1. Run `$ travis setup elasticbeanstalk`, which will get you mostly set up for EB.
+
+```
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: <access_key>
+  secret_access_key:
+    secure: <encrypted_secret_key>
+  region: us-west-2
+  app: <elb_app>
+  env: <elb_env>
+  on:
+    repo: <your_repo>
+  # V--- add these lines yourself ---V
+  bucket_name: <bucket_name_generated_by_eb>
+  bucket_path: <elb_app>
+  skip_cleanup: true
+```
 
 
 
