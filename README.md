@@ -23,6 +23,7 @@
     1. Environment name: todomvc-plusplus-prod
     1. DNS CNAME prefix: todomvc
     1. Classic load balancer, either works
+    1. This ends up creating a [bunch of resources](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/GettingStarted.html#GettingStarted.Walkthrough.CreateApp) for you
 1. Create RDS instance
     1. DB instance identifier: todomvc
     1. Master username/password isn't a big deal (not accessible to public)
@@ -38,35 +39,35 @@
     1. Choose 5432 as port, allowing connections from the EC2 security group
 1. Set up Travis
     1. Sign into Travis, tell it to do your repo
-    1. Install Travis CLI
+    1. Install Travis CLI ([docs](https://github.com/travis-ci/travis.rb#installation))
         1. Check Ruby > 1.9.3 `ruby -v`
         1. Download Travis CLI `$ gem install travis -v 1.8.8 --no-rdoc --no-ri`
         1. Verify `$ travis version`
-    1. Get an encrypted secret access key
+    1. Get an [encrypted secret access key](https://docs.travis-ci.com/user/encryption-keys#Usage)
     1. Add .travis.yml
 
 ```
 language: node_js
 node_js:
-  - "6"
+  - "6" # this repo expects Node 6, you can choose `node` for latest or whatever else is appropriate for your project
 cache:
   directories:
   - node_modules
 env:
 - TRAVIS_NODE_VERSION="6.3"
 services:
-- "postgresql"
+- "postgresql" # make postgres available on Travis
 install:
 - npm install
 before_script:
-  - psql -c 'create database "todos-test";' -U postgres
-  - sequelize db:migrate
+  - psql -c 'create database "todos-test";' -U postgres # set up the database
+  - sequelize db:migrate # migrate the database
 script:
-- npm test
-- "./node_modules/.bin/grunt collect_static"
+- npm test # run our tests
+- "./node_modules/.bin/grunt collect_static" # build static artifacts for deployment
 ```
 
-    1. Run `$ travis setup elasticbeanstalk`, which will get you mostly set up for EB.
+    5. Run `$ travis setup elasticbeanstalk`, which will get you mostly set up for EB. Docs are [here](https://docs.travis-ci.com/user/deployment/elasticbeanstalk/).
 
 ```
 deploy:
