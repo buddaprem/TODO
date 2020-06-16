@@ -9,6 +9,7 @@ env:
 services:
 - postgresql
 install:
+- docker build -t buddaprem93/TODO -f Dockerfile.dev .
 - npm install
 before_script:
 - psql -c 'create database "todos-test";' -U postgres
@@ -16,16 +17,4 @@ before_script:
 script:
 - npm test
 - "./node_modules/.bin/grunt collect_static"
-deploy:
-  provider: elasticbeanstalk
-  access_key_id: AKIAIGHXNSLI6ZHO7KBQ
-  secret_access_key:
-    secure: Eed+jxAfOadL8m+tsyP8+in97GKcZtuVLsMNOC7k5QvWuSWjiHTLUN7EPjIg3sn43ZpvyjkczMvkAcswn4swqZPYFFKVWkTG1S4IR3Zo4GLWm6s/rPj5armerAfbPRtWDizfEzrc5TAATHxRWRATIPNMfP3zD5LKlDXw2S7dbXZRjxpLlZ/ihREy8bVcdL+Lsf4Qpnnv0MoDj34ksyXEwX5RimjT7XtD7oowwLLY/qvj7/RyZtlBQ33NylOk24+XJyuhaKHw4cltm3LdT9nmtU+i5PT9CXwSaiXB5KUcNhKEzOIlT22WsMvw8DAZXAbN9ayNFvWIDx7tU6cwEpjyd0OmkLN6bZKjzNoJtwIOr8RnB0CUpoxVYJgBewk3/RQkFDHCRfTmS+wYMZ7noyj5UJe7xfYLNIaowjM+I843k28tit/VaHLk9z/PwODCGXkaBejUaGPqx/4ZiZrBtvN1r7H+Rx4UFqcorovswDZwdV4MH94FFRvaEIBxqQbvXs9UnOhzg/zar5RQtKa32PPAszIVSwzEbOj/3nkeuk5iqr7mNoDsWdMC2oCZ1craxxo7jF8KP0T8D3Dw987ZL48t0ebQ+tRXixp8uuHynapVs/Vdm3iaw3oLWFExWRTsztyf9R5e6NbxabDeWKffyPLzbiHplOPoZE2sAiVvtIhv9hM=
-  region: us-west-2
-  app: todomvc-plusplus
-  env: todomvc-plusplus-prod
-  on:
-    repo: AndrewSouthpaw/todomvc-plusplus
-  bucket_name: elasticbeanstalk-us-west-2-204160565325
-  bucket_path: todomvc-plusplus
-  skip_cleanup: true
+
